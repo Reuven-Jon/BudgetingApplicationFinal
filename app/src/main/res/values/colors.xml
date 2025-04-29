@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary branding -->
+    <color name="primaryColor">#00704A</color>
+    <color name="primaryVariant">#005035</color>   <!-- darker shade -->
+    <color name="secondaryColor">#8ACCD5</color>    <!-- soft blue accent -->
+
+    <!-- Surface and backgrounds -->
+    <color name="backgroundColor">#EFEEEA</color>         <!-- light neutral for app background -->
+    <color name="surfaceColor">#27251F</color>           <!-- dark charcoal for cards/headers -->
+
+    <!-- Board cell states -->
+    <color name="boardCellDefault">#273F4F</color>       <!-- navy for empty cells -->
+    <color name="boardCellFilled">#169976</color>        <!-- fresh mint for filled cells -->
+
+    <!-- Text and UI accents -->
+    <color name="progressTextColor">#F7374F</color>      <!-- vibrant red for progress indicator -->
+    <color name="buttonColor">#7AE2CF</color>            <!-- turquoise for interactive buttons -->
+    <color name="buttonTextColor">#27251F</color>        <!-- dark text on buttons -->
+</resources>
