@@ -10,5 +10,6 @@ data class BudgetGoal(
     val name: String,
     val target: Double,
     val periodMonths: Int,
-    val incomePerMonth: Double
+    val incomePerMonth: Double,
+
 ) : Parcelable

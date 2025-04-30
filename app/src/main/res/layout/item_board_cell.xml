@@ -11,10 +11,8 @@
         android:backgroundTint="@color/boardCellDefault" />
 
     <TextView
-        android:id="@+id/tvCellIndex"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:textColor="@android:color/black" />
+           android:id="@+id/tvCellIndex"
+        android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:visibility="gone" />
 </FrameLayout>

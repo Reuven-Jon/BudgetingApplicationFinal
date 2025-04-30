@@ -5,45 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- 1) Goal name -->
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        android:hint="@string/hint_goal_name">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etGoalName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="What are you saving for?"
-            android:textColor="@color/surfaceColor"
-            android:textColorHint="@color/boardCellDefault" />
+            android:inputType="textPersonName"/>
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- 2) Total cost -->
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        android:hint="@string/hint_goal_cost">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etGoalCost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- 3) Budget period -->
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/hint_budget_period">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPeriodMonths"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="Budget period (months)" />
+            android:inputType="number"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etIncomePerMonth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:hint="Monthly income" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+    <!-- 4) “Start Tracking” -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSubmit"
         style="@style/Widget.MaterialComponents.Button"
@@ -52,5 +55,7 @@
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/buttonColor"
         android:textColor="@color/buttonTextColor"
-        android:text="Start Tracking" />
+        android:text="@string/button_start_tracking"/>
 </LinearLayout>
+
+
