@@ -2,26 +2,48 @@ package com.sample.budgetingapplicationfinal
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.sample.budgetingapplicationfinal.databinding.ActivityMainBinding
+import android.util.Log
 
+/**
+ * MainActivity serves as the single-Activity host for all fragments.
+ *
+ * 📝 Architecture & Fragment-first navigation:
+ *   – We launch LoginFragment first, then swap in other flows on success.
+ *   – See “Guide to App Architecture” on Android Developers:
+ *     https://developer.android.com/jetpack/guide
+ *
+ * 📝 Handling runtime permissions:
+ *   – We request POST_NOTIFICATIONS on Android 13+ up front.
+ *   – See “Request permissions at runtime”:
+ *     https://developer.android.com/training/permissions/requesting
+ *
+ * 📝 Kotlin style & code conventions:
+ *   – Follow Kotlin Coding Conventions (naming, formatting):
+ *     https://kotlinlang.org/docs/coding-conventions.html
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // If you need to override the manifest theme here, use:
-        // setTheme(R.style.Theme_BudgetingApplicationFinal)
-
+        // Inflate view binding (avoids findViewById calls)
+        // Reference: View Binding docs
+        // https://developer.android.com/topic/libraries/view-binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 1) Ask for POST_NOTIFICATIONS on Android 13+
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+        // Request POST_NOTIFICATIONS on Android 13+ before any notifications are shown
+        // Best Practice: Always check SDK version before requesting new permissions
+        // https://developer.android.com/about/versions/13/changes/behavior#notifications-permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED
+            ) {
                 requestPermissions(
                     arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                     REQUEST_POST_NOTIFICATIONS
@@ -29,13 +51,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 2) As soon as the channel exists & (optionally) permission is granted, fire a tip
-        val notifier = NotificationHelper(this)
-        notifier.showTip("Track one expense today!")
-
-        // Start with your input fragment
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, GoalInputFragment())
+        // Start with the login flow
+        // Single-Activity, Fragment-based navigation:
+        // https://developer.android.com/guide/fragments/fragmentmanager
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, LoginFragment())
             .commit()
     }
 
@@ -43,15 +64,27 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_POST_NOTIFICATIONS = 1001
     }
 
+    /**
+     * Handle the result of our notification-permission request.
+     * We don’t immediately fire notifications here; instead, we
+     * let the logged-in fragment or ViewModel decide when to call
+     * NotificationHelper.showTip().
+     *
+     * See “Handling the permissions request response”:
+     * https://developer.android.com/training/permissions/requesting#handle-result
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_POST_NOTIFICATIONS
-            && grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) {
-            // Now you can call notifier.showTip(...) again if you want
+        if (requestCode == REQUEST_POST_NOTIFICATIONS &&
+            grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED
+        ) {
+            // now safe to send notifications
+            Log.d("MainActivity", "POST_NOTIFICATIONS permission granted")
         }
     }
 }
+

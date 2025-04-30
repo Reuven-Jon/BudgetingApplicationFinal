@@ -5,19 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Progress % -->
     <TextView
         android:id="@+id/tvProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Progress: 0%"
-        android:textSize="18sp"
+        android:text="@string/progress_format"
         android:textColor="@color/progressTextColor"
-        android:layout_gravity="center_horizontal" />
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"/>
 
+    <!-- Motivational message -->
+    <TextView
+        android:id="@+id/tvMotivation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/motivation_initial"
+        android:textStyle="italic"
+        android:paddingTop="4dp"
+        android:gravity="center"/>
+
+    <!-- 10×10 grid -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBoard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingTop="16dp" />
+        android:paddingTop="16dp"/>
+
+    <!-- Manual progress input + button -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="16dp">
+
+        <EditText
+            android:id="@+id/etManualProgress"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_enter_saved_amount"
+            android:inputType="numberDecimal"
+            android:padding="8dp"/>
+
+        <Button
+            android:id="@+id/btnUpdateProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/button_update_progress"/>
+    </LinearLayout>
 </LinearLayout>
+
+

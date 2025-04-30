@@ -1,6 +1,24 @@
 <resources>
-    <string name="app_name">BudgetingApplicationFinal</string>
-    <string name="cell_index">%d</string>
-    <string name="progress_format">Progress: %d%%</string>
 
+    <string name="app_name">BudgetingApplicationFinal</string>
+    <!-- Login screen -->
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="button_log_in">Log In</string>
+
+    <!-- Goal input -->
+    <string name="hint_goal_name">What are you saving for?</string>
+    <string name="hint_goal_cost">How much does it cost?</string>
+    <string name="hint_budget_period">Budget period (months)</string>
+    <string name="button_start_tracking">Start Tracking</string>
+
+
+
+    <!-- Board / Progress -->
+    <string name="progress_format">Progress: %1$d%%</string>
+    <string name="hint_enter_saved_amount">Enter saved amount</string>
+    <string name="button_update_progress">Update Progress</string>
+    <string name="desc_board">Saving progress cells</string>
+    <string name="motivation_initial">Ready when you are! 🚀</string>
+    <string name="error_invalid_number">Please enter a valid amount.</string>
 </resources>
