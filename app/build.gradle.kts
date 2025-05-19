@@ -10,7 +10,7 @@ android {
     compileSdk = 35
 
     buildFeatures {
-        viewBinding = true    // <— add this
+        viewBinding = true    // <— add this0
         compose = true
 
         composeOptions {
@@ -50,6 +50,9 @@ android {
         }
 
         dependencies {
+            // bring in the Fragment KTX helpers (choose the latest stable version)
+            implementation (libs.androidx.fragment.ktx)
+
             // Core
             implementation("androidx.core:core-ktx:1.10.1")
             implementation("androidx.appcompat:appcompat:1.6.1")

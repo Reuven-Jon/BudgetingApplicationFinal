@@ -1,0 +1,10 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:padding="24dp" android:background="@android:color/white" android:layout_width="match_parent" android:layout_height="wrap_content" android:elevation="6dp">
+    <!--  Title  -->
+    <TextView android:id="@+id/expenseTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Add Expense" android:textColor="#000000" android:textSize="20sp" android:textStyle="bold" android:layout_marginBottom="16dp"/>
+    <!--  Income Category Input  -->
+    <EditText android:id="@+id/expenseCategoryInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Expense Category (e.g. Car Service)" android:background="@drawable/edit_text_background" android:padding="12dp" android:textColor="#000000" android:textColorHint="#757575" android:layout_marginBottom="12dp"/>
+    <!--  Income Amount Input  -->
+    <EditText android:id="@+id/expenseAmountInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Amount (e.g. 5000)" android:inputType="numberDecimal" android:background="@drawable/edit_text_background" android:padding="12dp" android:textColor="#000000" android:textColorHint="#757575" android:layout_marginBottom="20dp"/>
+    <!--  Add Button  -->
+    <Button android:id="@+id/submitExpenseButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Add Expense" android:backgroundTint="#FF0000" android:textColor="@android:color/white" android:textAllCaps="false" android:padding="12dp"/>
+</LinearLayout>

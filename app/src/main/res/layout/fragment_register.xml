@@ -6,78 +6,59 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Email field with info icon -->
+    <!-- Email input with info icon -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUsername"
+        android:id="@+id/tilRegEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/hint_email"
-        app:boxStrokeColor="@color/buttonColor"
         app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_info"
+        app:endIconTint="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsername"
+            android:id="@+id/etRegEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:autofillHints="emailAddress" />
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Password field with black info icon -->
+    <!-- Password input with info icon -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPassword"
+        android:id="@+id/tilRegPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/hint_password"
-        app:boxStrokeColor="@color/buttonColor"
         app:passwordToggleEnabled="true"
         app:endIconMode="custom"
         app:endIconDrawable="@drawable/ic_info"
         app:endIconTint="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/tilUsername"
+        app:layout_constraintTop_toBottomOf="@id/tilRegEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPassword"
+            android:id="@+id/etRegPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:autofillHints="password" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Login button -->
+    <!-- Register submit button -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnSubmitRegister"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/button_log_in"
-        android:backgroundTint="@color/buttonColor"
-        android:textColor="@color/buttonTextColor"
-        app:cornerRadius="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tilPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Register button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRegister"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/button_register_new_user"
-        app:cornerRadius="8dp"
-        app:layout_constraintTop_toBottomOf="@id/btnLogin"
+        android:text="@string/button_submit_registration"
+        app:layout_constraintTop_toBottomOf="@id/tilRegPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

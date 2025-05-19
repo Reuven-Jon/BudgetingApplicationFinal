@@ -5,6 +5,11 @@
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="button_log_in">Log In</string>
+    <!-- for the “Register new User” button -->
+    <string name="button_register_new_user">Register New User</string>
+
+    <!-- for the “Submit Registration” button -->
+    <string name="button_submit_registration">Submit Registration</string>
 
     <!-- Goal input -->
     <string name="hint_goal_name">What are you saving for?</string>
@@ -15,10 +20,17 @@
 
 
     <!-- Board / Progress -->
+    <!-- res/values/strings.xml -->
+    <string name="desc_player_marker">Player position</string>
     <string name="progress_format">Progress: %1$d%%</string>
     <string name="hint_enter_saved_amount">Enter saved amount</string>
     <string name="button_update_progress">Update Progress</string>
     <string name="desc_board">Saving progress cells</string>
     <string name="motivation_initial">Ready when you are! 🚀</string>
     <string name="error_invalid_number">Please enter a valid amount.</string>
+    <!-- for the little "%-cell" labels -->
+    <string name="cell_percent">%1$d%%</string>
+    <string name="button_go_to_income">Income</string>
+    <string name="button_go_to_expense">Expenses</string>
+
 </resources>
