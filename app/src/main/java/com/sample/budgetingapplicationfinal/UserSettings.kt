@@ -20,7 +20,4 @@ class UserSettings(context: Context) {
         get() = prefs.getString(KEY_CURRENCY, "ZAR") ?: "ZAR"
         set(value) = prefs.edit().putString(KEY_CURRENCY, value).apply()
 
-    var remindersEnabled: Boolean
-        get() = prefs.getBoolean(KEY_REMINDERS, true)
-        set(value) = prefs.edit().putBoolean(KEY_REMINDERS, value).apply()
 }
