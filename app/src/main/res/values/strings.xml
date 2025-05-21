@@ -8,14 +8,30 @@
     <!-- for the “Register new User” button -->
     <string name="button_register_new_user">Register New User</string>
 
+    <string name="go_back_to_login">Go back to login</string>
+
     <!-- for the “Submit Registration” button -->
     <string name="button_submit_registration">Submit Registration</string>
-
+    <string name="username_rules">Username must be a valid email address</string>
+    <string name="password_rules">Password must be ≥8 chars, include uppercase, digit &amp; symbol</string>
     <!-- Goal input -->
     <string name="hint_goal_name">What are you saving for?</string>
     <string name="hint_goal_cost">How much does it cost?</string>
     <string name="hint_budget_period">Budget period (months)</string>
     <string name="button_start_tracking">Start Tracking</string>
+
+    <string name="desc_back">Go back</string>
+    <string name="title_my_income">My Income</string>
+    <string name="desc_add_income">Add income entry</string>
+
+    <string name="label_total_income">Total income for this month</string>
+    <string name="amount_default">R0.00</string>
+    <string name="label_forms_of_income">Your forms of income</string>
+    <string name="no_income_yet">No income entries yet. Tap + to add one.</string>
+
+    <string name="username_rules_title">Username rules</string>
+
+    <string name="password_rules_title">Password rules</string>
 
 
 
@@ -32,5 +48,14 @@
     <string name="cell_percent">%1$d%%</string>
     <string name="button_go_to_income">Income</string>
     <string name="button_go_to_expense">Expenses</string>
+
+    <string name="error_invalid_email">Enter a valid email</string>
+    <string name="error_password_rules">
+        Password must be ≥8 chars, include uppercase, digit &amp; symbol
+    </string>
+    <string name="login_failed">Login failed: %1$s</string>
+    <string name="login_successful">Login successful</string>
+    <string name="error_no_profile">Account not found. Please register first.</string>
+    <string name="error_db">Database error: %1$s</string>
 
 </resources>

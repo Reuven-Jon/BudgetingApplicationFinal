@@ -4,82 +4,143 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import com.sample.budgetingapplicationfinal.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
-    private var binding: FragmentLoginBinding? = null
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentLoginBinding.bind(view)
+        _binding = FragmentLoginBinding.bind(view)
+        auth     = Firebase.auth
 
-        // Info-button listeners
-        binding?.tilUsername?.setEndIconOnClickListener {
-            showInfoDialog(
-                title = "Email format",
-                message = "Enter a valid address like name@domain.com"
-            )
+        // Show email rules on icon tap
+        binding.tilUsername.setEndIconOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.username_rules_title)
+                .setMessage(R.string.username_rules)
+                .setPositiveButton("OK", null)
+                .show()
         }
-        binding?.tilPassword?.setEndIconOnClickListener {
-            showInfoDialog(
-                title = "Password rules",
-                message = "At least 8 chars, include an uppercase letter, a number & a symbol"
-            )
+
+        // Show password rules on icon tap
+        binding.tilPassword.setEndIconOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.password_rules_title)
+                .setMessage(R.string.password_rules)
+                .setPositiveButton("OK", null)
+                .show()
         }
-        binding?.btnRegister?.setOnClickListener {
+
+        // Navigate to Register screen
+        binding.btnRegister.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.container, RegisterFragment())
                 .addToBackStack(null)
                 .commit()
         }
-        // Login handler
-        binding?.btnLogin?.setOnClickListener {
-            val email = binding?.etUsername?.text.toString().trim()
-            val password = binding?.etPassword?.text.toString()
-            var ok = true
+
+        // Handle login taps
+        binding.btnLogin.setOnClickListener { btn ->
+            // Bounce animation
+            val bounce = AnimationUtils.loadAnimation(requireContext(), R.anim.bounce)
+            btn.startAnimation(bounce)
+
+            // Read inputs
+            val email = binding.etUsername.text.toString().trim()
+            val pw    = binding.etPassword.text.toString()
+            var valid = true
 
             // Validate email
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding?.tilUsername?.error = "Enter a valid email"
-                ok = false
+                binding.tilUsername.error = getString(R.string.error_invalid_email)
+                valid = false
             } else {
-                binding?.tilUsername?.error = null
+                binding.tilUsername.error = null
             }
 
-            // Validate password complexity
-            val specialChars = "!@#\$%^&*()_+[]{}|;:',.<>?/~"
-            if (password.length < 8 ||
-                password.none { it.isUpperCase() } ||
-                password.none { it.isDigit() } ||
-                password.none { specialChars.contains(it) }
+            // Validate password
+            val special = "!@#\$%^&*()_+[]{}|;:',.<>?/~"
+            if (pw.length < 8 ||
+                pw.none { it.isUpperCase() } ||
+                pw.none { it.isDigit() } ||
+                pw.none { special.contains(it) }
             ) {
-                binding?.tilPassword?.error =
-                    "Password must be ≥8 chars, include uppercase, digit & symbol"
-                ok = false
+                binding.tilPassword.error = getString(R.string.error_password_rules)
+                valid = false
             } else {
-                binding?.tilPassword?.error = null
+                binding.tilPassword.error = null
             }
 
-            // Navigate on success
-            if (ok) {
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.container, GoalInputFragment())
-                    .commit()
-            }
+            if (!valid) return@setOnClickListener
+
+            // Attempt sign-in
+            auth.signInWithEmailAndPassword(email, pw)
+                .addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.login_failed, task.exception?.message),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@addOnCompleteListener
+                    }
+
+                    // Success toast
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.login_successful),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    // Check profile in Realtime DB
+                    val uid = auth.currentUser!!.uid
+                    val ref = FirebaseDatabase.getInstance()
+                        .getReference("users")
+                        .child(uid)
+                        .child("profile")
+
+                    ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.exists()) {
+                                parentFragmentManager.beginTransaction()
+                                    .replace(R.id.container, GoalInputFragment())
+                                    .commit()
+                            } else {
+                                auth.signOut()
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.error_no_profile),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                        override fun onCancelled(error: DatabaseError) {
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.error_db, error.message),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    })
+                }
         }
     }
 
-    private fun showInfoDialog(title: String, message: String) {
-        AlertDialog.Builder(requireContext())
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("OK", null)
-            .show()
-    }
-
     override fun onDestroyView() {
-        binding = null
+        _binding = null
         super.onDestroyView()
     }
 }

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "453236977477",
+    "firebase_url": "https://budgetingapplicationfinal-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "budgetingapplicationfinal",
+    "storage_bucket": "budgetingapplicationfinal.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453236977477:android:0e734fa8bcd42b8bce182c",
+        "android_client_info": {
+          "package_name": "com.sample.budgetingapplicationfinal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_k9CDz2aWA7pImELD8Mu5As0pJNTO0pA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

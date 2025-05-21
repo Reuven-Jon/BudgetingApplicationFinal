@@ -16,5 +16,8 @@
     <!-- Text and UI accents -->
     <color name="progressTextColor">#F7374F</color>      <!-- vibrant red for progress indicator -->
     <color name="buttonColor">#7AE2CF</color>            <!-- turquoise for interactive buttons -->
-    <color name="buttonTextColor">#27251F</color>        <!-- dark text on buttons -->
+    <color name="buttonTextColor">#27251F</color>
+    <color name="ruleTextColor">#666666</color>
+
+    <color name="colorPrimary">#007BCE</color><!-- dark text on buttons -->
 </resources>
