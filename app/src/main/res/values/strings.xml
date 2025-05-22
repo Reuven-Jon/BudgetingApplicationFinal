@@ -17,6 +17,10 @@
     <string name="label_total_expense">Total Expense For This Month</string>
     <string name="no_expense_yet">No expenses recorded yet</string>
 
+    <!-- Navigation drawer/menu button -->
+    <string name="desc_menu">Open navigation menu</string>
+    <!-- FAB on the Expense page -->
+    <string name="desc_add_expense">Add expense entry</string>
 
     <!-- for the “Submit Registration” button -->
     <string name="button_submit_registration">Submit Registration</string>

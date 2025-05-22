@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_income"
+        android:icon="@drawable/swap_arrow"
+        android:title="Income" />
+
+    <item
+        android:id="@+id/nav_board_game"
+        android:icon="@drawable/globe"
+        android:title="Board Game" />
+
+    <item
+        android:id="@+id/nav_login"
+        android:icon="@drawable/user"
+        android:title="Login" />
+
+</menu>

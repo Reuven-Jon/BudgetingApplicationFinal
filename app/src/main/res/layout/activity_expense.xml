@@ -1,109 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/expenseRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
+    android:background="@color/backgroundColor"
     tools:context=".ExpenseActivity">
 
-    <!-- Back arrow -->
-    <ImageView
-        android:id="@+id/backArrow"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/swap_arrow"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Menu button -->
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/menu_burger"
+        android:contentDescription="@string/desc_back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Title -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center"
         android:text="@string/title_my_expense"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/backArrow"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@id/menuButton"
         app:layout_constraintEnd_toStartOf="@id/addExpenseFab"
-        app:layout_constraintTop_toTopOf="@id/backArrow"
-        app:layout_constraintBottom_toBottomOf="@id/backArrow" />
+        app:layout_constraintTop_toTopOf="@id/menuButton"
+        app:layout_constraintBottom_toBottomOf="@id/menuButton"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
 
-    <!-- Add-expense FAB -->
+    <!-- Add Expense FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addExpenseFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/desc_add_income"
         android:src="@drawable/add"
-        app:tint="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:backgroundTint="@color/buttonColor"
+        app:tint="@color/buttonTextColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/menuButton" />
 
-    <!-- Total-expense summary card -->
-    <androidx.cardview.widget.CardView
+    <!-- Total Expense Card -->
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/totalExpenseCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        app:cardCornerRadius="16dp"
-        app:cardBackgroundColor="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/backArrow"
+        app:cardBackgroundColor="@color/buttonColor"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menuButton">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="103dp"
             android:orientation="vertical"
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/labelTotalExpense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_total_expense"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/buttonTextColor" />
 
             <TextView
                 android:id="@+id/totalExpenseAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="R0.00"
-                android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/buttonTextColor" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Swipe-to-refresh + empty-state + list -->
+    <!-- Expense list -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainerExpense"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/totalExpenseCard"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!-- Empty state -->
             <TextView
-                android:id="@+id/emptyExpenseView"
+                android:id="@+id/emptyView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_expense_yet"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
+            <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/expenseRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp" />
         </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

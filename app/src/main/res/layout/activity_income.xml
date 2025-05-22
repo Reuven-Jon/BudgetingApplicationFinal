@@ -7,68 +7,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@color/backgroundColor"
     tools:context=".IncomeActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvIncomes"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-    <!-- Back button -->
-    <ImageView
-        android:id="@+id/backArrow"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+    <!-- Menu button -->
+    <ImageButton
+        android:id="@+id/menuButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/menu_burger"
         android:contentDescription="@string/desc_back"
-        android:src="@drawable/swap_arrow"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:tint="@color/buttonTextColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Title -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center"
         android:text="@string/title_my_income"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/backArrow"
+        android:gravity="center"
+        app:layout_constraintStart_toEndOf="@id/menuButton"
         app:layout_constraintEnd_toStartOf="@id/addIncomeFab"
-        app:layout_constraintTop_toTopOf="@id/backArrow"
-        app:layout_constraintBottom_toBottomOf="@id/backArrow" />
+        app:layout_constraintTop_toTopOf="@id/menuButton"
+        app:layout_constraintBottom_toBottomOf="@id/menuButton"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
 
-    <!-- Add new entry -->
+    <!-- Add Income FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addIncomeFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/desc_add_income"
-        app:srcCompat="@drawable/add"
-        app:tint="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:src="@drawable/add"
+        app:backgroundTint="@color/buttonColor"
+        app:tint="@color/buttonTextColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/menuButton" />
 
-    <!-- Total income summary -->
-    <androidx.cardview.widget.CardView
+    <!-- Total Income Card -->
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/totalIncomeCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardBackgroundColor="@color/buttonColor"
         app:cardCornerRadius="12dp"
-        app:layout_constraintTop_toBottomOf="@id/backArrow"
+        app:cardElevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menuButton">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="103dp"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -77,29 +73,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_total_income"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/buttonTextColor" />
 
             <TextView
                 android:id="@+id/totalIncomeAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/amount_default"
-                android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/buttonTextColor" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Income list with refresh -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/totalIncomeCard"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -113,8 +108,14 @@
                 android:text="@string/no_income_yet"
                 android:layout_gravity="center"
                 android:visibility="gone" />
-
-            <!-- Data list -->
+            <TextView
+                android:id="@+id/emptyIncomeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No income entries yet"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+            <!-- RecyclerView for incomes -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/incomeRecyclerView"
                 android:layout_width="match_parent"
