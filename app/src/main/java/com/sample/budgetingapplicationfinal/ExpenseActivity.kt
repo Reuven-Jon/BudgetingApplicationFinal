@@ -1,217 +1,154 @@
 package com.sample.budgetingapplicationfinal
 
-import android.Manifest                                        // for runtime permissions
-import android.app.AlertDialog                                 // to build pop-up dialogs
-import android.content.Intent                                  // to launch other Activities
-import android.content.pm.PackageManager                       // to check permission status
-import android.graphics.Color
+import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
-import android.os.Build                                        // to branch on Android version
 import android.os.Bundle
-import android.util.Log                                        // for logging errors
-import android.view.LayoutInflater                             // to inflate custom pop-up layout
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.google.firebase.auth.FirebaseAuth                    // Firebase authentication
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference          // to reference your Firebase DB
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.sample.budgetingapplicationfinal.databinding.ActivityExpenseBinding
-import java.time.LocalDate                                     // to stamp expenses with dates
+import java.time.LocalDate
 
 class ExpenseActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityExpenseBinding   // view-binding for activity_expense.xml
-    private lateinit var auth: FirebaseAuth                // FirebaseAuth instance
-    private lateinit var dbRef: DatabaseReference          // Reference to /users/{uid}/expenses
-    private lateinit var notificationHelper: NotificationHelper
-    private var totalExpenses: Double = 0.0                // running total in-memory
-    private val expenseList = mutableListOf<Expense>()  // holds expenses for the UI
-
-    companion object {
-        private const val NOTIF_PERMISSION_REQUEST_CODE = 1001
-    }
+    private lateinit var binding: ActivityExpenseBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: DatabaseReference
+    private lateinit var adapter: FirebaseRecyclerAdapter<ExpenseEntry, ExpenseViewHolder>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Inflate the layout and set it as the content view
         binding = ActivityExpenseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize FirebaseAuth
+        // 1. Auth check + nav back to Income
         auth = Firebase.auth
-
-        // If user isn’t signed in, bounce them to login flow
-        if (auth.currentUser == null) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-            return
-        }
-
-        // Build a reference to /users/{uid}/expenses in Realtime DB
-        val uid = auth.currentUser!!.uid
-        dbRef = FirebaseDatabase
-            .getInstance()
-            .getReference("users")
-            .child(uid)
-            .child("expenses")
-
-        // Initialize notifications helper
-        notificationHelper = NotificationHelper(this)
-
-        // Request notification permission on Android 13+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ContextCompat.checkSelfPermission(
-                this, Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                NOTIF_PERMISSION_REQUEST_CODE
-            )
-        }
-
-        // Show current total
-        updateTotalExpenseDisplay()
-
-        // Show pop-up when user taps the options button
-        binding.optionsButtonExpense.setOnClickListener {
-            showExpensePopup()
-        }
-
-        // Back arrow returns to IncomeActivity
         binding.backArrow.setOnClickListener {
             startActivity(Intent(this, IncomeActivity::class.java))
             finish()
         }
+
+        // 2. Point at /users/{uid}/expenses
+        val uid = auth.currentUser?.uid ?: return finish()
+        db = FirebaseDatabase.getInstance()
+            .getReference("users").child(uid).child("expenses")
+
+        // 3. Recycler + FirebaseUI
+        val opts = FirebaseRecyclerOptions.Builder<ExpenseEntry>()
+            .setQuery(db, ExpenseEntry::class.java)
+            .build()
+        adapter = object : FirebaseRecyclerAdapter<ExpenseEntry, ExpenseViewHolder>(opts) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                ExpenseViewHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_expense_card, parent, false)
+                )
+            override fun onBindViewHolder(holder: ExpenseViewHolder, pos: Int, model: ExpenseEntry) {
+                holder.tvCat.text    = model.category
+                holder.tvAmt.text    = String.format("R%,.2f", model.amount)
+                holder.tvDate.text   = model.date
+
+                // Show info dialog on tap
+                holder.btnInfo.setOnClickListener {
+                    AlertDialog.Builder(this@ExpenseActivity)
+                        .setTitle("Expense Details")
+                        .setMessage("""
+              Category: ${model.category}
+              Amount: R${model.amount}
+              Date: ${model.date}
+            """.trimIndent())
+                        .setPositiveButton("OK", null)
+                        .show()
+                }
+            }
+        }
+        binding.expenseRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@ExpenseActivity)
+            adapter = this@ExpenseActivity.adapter
+        }
+
+        // 4. Swipe-to-refresh
+        binding.swipeContainerExpense.setOnRefreshListener {
+            adapter.notifyDataSetChanged()
+            binding.swipeContainerExpense.isRefreshing = false
+        }
+
+        // 5. Empty-state & total summary
+        db.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snap: DataSnapshot) {
+                var total = 0.0
+                snap.children.forEach {
+                    it.getValue(ExpenseEntry::class.java)?.let { exp ->
+                        total += exp.amount
+                    }
+                }
+                binding.totalExpenseAmount.text = String.format("R%,.2f", total)
+                binding.emptyExpenseView.visibility =
+                    if (total == 0.0) View.VISIBLE else View.GONE
+            }
+            override fun onCancelled(err: DatabaseError) {}
+        })
+
+        // 6. FAB to add one
+        binding.addExpenseFab.setOnClickListener { showExpensePopup() }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        adapter.startListening()
+    }
+    override fun onStop() {
+        adapter.stopListening()
+        super.onStop()
     }
 
     private fun showExpensePopup() {
-        // Inflate the custom layout for expense input
-        val popupView = LayoutInflater.from(this)
-            .inflate(R.layout.expense_input_popup, null)
-
-        // Build and show a transparent-background AlertDialog
-        val dialog = AlertDialog.Builder(this)
-            .setView(popupView)
+        // exactly the same pattern as IncomeActivity
+        val popup = LayoutInflater.from(this)
+            .inflate(R.layout.dialog_add_expense, null)
+        val dlg = AlertDialog.Builder(this)
+            .setView(popup)
             .create()
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
 
-        // Grab references to the input fields and button
-        val categoryInput = popupView.findViewById<EditText>(R.id.expenseCategoryInput)
-        val amountInput   = popupView.findViewById<EditText>(R.id.expenseAmountInput)
-        val submitButton  = popupView.findViewById<Button>(R.id.submitExpenseButton)
+        val etCat   = popup.findViewById<EditText>(R.id.expenseCategoryInput)
+        val etAmt   = popup.findViewById<EditText>(R.id.expenseAmountInput)
+        val btnSave = popup.findViewById<Button>(R.id.submitExpenseButton)
 
-        submitButton.setOnClickListener {
-            // Read and trim user inputs
-            val categoryText = categoryInput.text.toString().trim()
-            val amountText   = amountInput.text.toString().trim()
-            val parsedAmount = amountText.toDoubleOrNull()
-
-            // Validate category isn’t blank
-            if (categoryText.isBlank()) {
-                categoryInput.error = "Required"
-                return@setOnClickListener
-            }
-            // Validate amount is a number
-            if (parsedAmount == null) {
-                amountInput.error = "Enter valid number"
-                return@setOnClickListener
-            }
-
-            // Create the Expense object
-            val newExpense = Expense(source = categoryText, amount = parsedAmount)
-
-            // Add to in-memory list and UI
-            expenseList.add(newExpense)
-            addExpenseCard(newExpense)
-
-            // Persist to Firebase under /users/{uid}/expenses
-            val expenseEntry = ExpenseEntry(
-                category = categoryText,
-                amount = parsedAmount,
-                date = LocalDate.now().toString()
-            )
-            dbRef.push().setValue(expenseEntry)                // write to new path
-            FirebaseDatabaseManager.saveExpense(auth.currentUser!!.uid, expenseEntry) // ensure saved
-
-            // Update totals and display
-            totalExpenses += parsedAmount
-            updateTotalExpenseDisplay()
-
-            // Send notification if permitted
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-                ContextCompat.checkSelfPermission(
-                    this, Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                try {
-                    notificationHelper.showExpenseNotification(
-                        newExpense.source,
-                        newExpense.amount
-                    )
-                } catch (e: Exception) {
-                    Log.e("ExpenseActivity", "Notification error", e)
-                    Toast.makeText(this, "Couldn’t send notification", Toast.LENGTH_SHORT).show()
+        btnSave.setOnClickListener {
+            val cat = etCat.text.toString().trim()
+            val amt = etAmt.text.toString().toDoubleOrNull()
+            when {
+                cat.isEmpty() -> etCat.error = "Required"
+                amt == null   -> etAmt.error = "Enter number"
+                else -> {
+                    val e = ExpenseEntry(cat, amt, LocalDate.now().toString())
+                    db.push().setValue(e)
+                    Toast.makeText(this, "Expense added", Toast.LENGTH_SHORT).show()
+                    dlg.dismiss()
                 }
-            } else {
-                Toast.makeText(this, "Notifications disabled", Toast.LENGTH_SHORT).show()
             }
-
-            // Show success toast
-            Toast.makeText(
-                this,
-                "Expense added: ${newExpense.source} – R%,.2f".format(newExpense.amount),
-                Toast.LENGTH_SHORT
-            ).show()
-
-            // Dismiss the dialog
-            dialog.dismiss()
         }
+
+        dlg.window?.setBackgroundDrawable(ColorDrawable(0))
+        dlg.show()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // Inform user if they denied notification permission
-        if (requestCode == NOTIF_PERMISSION_REQUEST_CODE &&
-            grantResults.firstOrNull() != PackageManager.PERMISSION_GRANTED
-        ) {
-            Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun addExpenseCard(expense: Expense) {
-        // Inflate an expense card and bind its fields
-        val cardView = layoutInflater.inflate(
-            R.layout.item_expense_card,
-            binding.expenseHistoryContainer,
-            false
-        )
-        val sourceTv = cardView.findViewById<TextView>(R.id.expenseSource)
-        val dateTv   = cardView.findViewById<TextView>(R.id.expenseDate)
-        val amountTv = cardView.findViewById<TextView>(R.id.expenseAmount)
-
-        // Display source, formatted date, and amount
-        sourceTv.text = expense.source
-        dateTv.text   = "${LocalDate.now().month.name.lowercase().replaceFirstChar { it.uppercase() }} ${LocalDate.now().year}"
-        amountTv.text = "R%,.2f".format(expense.amount)
-
-        // Add the card to the scrollable container
-        binding.expenseHistoryContainer.addView(cardView)
-    }
-
-    private fun updateTotalExpenseDisplay() {
-        // Update the total expenses TextView
-        binding.totalExpenseAmount.text = "R%,.2f".format(totalExpenses)
+    // ViewHolder for item_expense_card.xml
+    class ExpenseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvCat  = view.findViewById<TextView>(R.id.expenseCategory)
+        val tvAmt  = view.findViewById<TextView>(R.id.expenseAmount)
+        val tvDate = view.findViewById<TextView>(R.id.expenseDate)
+        val btnInfo= view.findViewById<ImageButton>(R.id.expenseInfoButton)
     }
 }

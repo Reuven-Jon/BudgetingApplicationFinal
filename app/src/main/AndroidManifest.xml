@@ -6,6 +6,8 @@
 
     <!-- Android 13+ notification permission -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Allow network calls for FirebaseAuth & Realtime DB -->
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".MyApp"

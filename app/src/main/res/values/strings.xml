@@ -10,6 +10,14 @@
 
     <string name="go_back_to_login">Go back to login</string>
 
+    <string name="select_period">Select period</string>
+    <string name="info">Details</string>
+
+    <string name="title_my_expense">My Expenses</string>
+    <string name="label_total_expense">Total Expense For This Month</string>
+    <string name="no_expense_yet">No expenses recorded yet</string>
+
+
     <!-- for the “Submit Registration” button -->
     <string name="button_submit_registration">Submit Registration</string>
     <string name="username_rules">Username must be a valid email address</string>

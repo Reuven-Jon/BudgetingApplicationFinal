@@ -1,10 +1,104 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:padding="24dp" android:background="@android:color/white" android:layout_width="match_parent" android:layout_height="wrap_content" android:elevation="6dp">
-    <!--  Title  -->
-    <TextView android:id="@+id/addIncomeTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Add Income" android:textColor="#000000" android:textSize="20sp" android:textStyle="bold" android:layout_marginBottom="16dp"/>
-    <!--  Income Category Input  -->
-    <EditText android:id="@+id/incomeCategoryInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Income Category (e.g. Freelance)" android:background="@drawable/edit_text_background" android:padding="12dp" android:textColor="#000000" android:textColorHint="#757575" android:layout_marginBottom="12dp"/>
-    <!--  Income Amount Input  -->
-    <EditText android:id="@+id/incomeAmountInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Amount (e.g. 5000)" android:inputType="numberDecimal" android:background="@drawable/edit_text_background" android:padding="12dp" android:textColor="#000000" android:textColorHint="#757575" android:layout_marginBottom="20dp"/>
-    <!--  Add Button  -->
-    <Button android:id="@+id/submitIncomeButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Add Income" android:backgroundTint="#0066CC" android:textColor="@android:color/white" android:textAllCaps="false" android:padding="12dp"/>
-</LinearLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="24dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Add Income"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Category -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilCategory"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Category (e.g. Freelance)"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Amount -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAmount"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Amount"
+            app:layout_constraintTop_toBottomOf="@id/tilCategory"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Monthly Period -->
+        <Spinner
+            android:id="@+id/spinnerPeriod"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/select_period"
+            app:layout_constraintTop_toBottomOf="@id/tilAmount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Source -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilSource"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Source of Income"
+            app:layout_constraintTop_toBottomOf="@id/spinnerPeriod"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Add Income"
+            app:layout_constraintTop_toBottomOf="@id/tilSource"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
