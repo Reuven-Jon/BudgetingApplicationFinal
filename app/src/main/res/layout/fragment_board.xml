@@ -16,7 +16,7 @@
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 2) Motivation text -->
     <TextView
@@ -28,7 +28,7 @@
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/tvProgress"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Board game container (square, 1:1) -->
     <FrameLayout
@@ -43,8 +43,6 @@
         app:layout_constraintBottom_toTopOf="@id/manualEntryContainer"
         app:layout_constraintDimensionRatio="1:1">
 
-
-
         <!-- Top edge: 0–10%, 10–20%, 20–30% -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,19 +54,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="0 - 10 %"/>
+                android:text="0 - 10 %" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="10 - 20 %"/>
+                android:text="10 - 20 %" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="20 - 30 %"/>
+                android:text="20 - 30 %" />
         </LinearLayout>
 
         <!-- Right edge: 30–40%, 40–50% -->
@@ -82,13 +80,13 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="30 - 40 %"/>
+                android:text="30 - 40 %" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="40 - 50 %"/>
+                android:text="40 - 50 %" />
         </LinearLayout>
 
         <!-- Bottom edge: 50–60%, 60–70%, 70–80% -->
@@ -102,14 +100,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="70 - 80 %"/>
+                android:text="70 - 80 %" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="60 - 70 %"/>
-
+                android:text="60 - 70 %" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -129,14 +126,24 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Complete"/>
+                android:text="Complete" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="90 - 100 %"/>
+                android:text="90 - 100 %" />
         </LinearLayout>
+
+        <!-- 3) Bouncing marker inside board frame -->
+        <ImageView
+            android:id="@+id/ivMarker"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/user"
+            android:visibility="gone"
+            android:layout_gravity="top|start" />
+
     </FrameLayout>
 
 
@@ -166,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/button_update_progress"/>
+            android:text="@string/button_update_progress" />
     </LinearLayout>
 
     <!-- 4) Navigation buttons -->
@@ -198,6 +205,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/button_go_to_expense"/>
+            android:text="@string/button_go_to_expense" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

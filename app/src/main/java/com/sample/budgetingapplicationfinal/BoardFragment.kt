@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.BounceInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -18,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.sample.budgetingapplicationfinal.databinding.FragmentBoardBinding
-import java.time.LocalDate
+import kotlin.math.roundToInt
 
 class BoardFragment : Fragment(R.layout.fragment_board) {
     private var _binding: FragmentBoardBinding? = null
@@ -48,7 +49,6 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
         // 2) Init FirebaseAuth & guard
         auth = Firebase.auth
         if (auth.currentUser == null) {
-            // not signed in → go back to login flow
             startActivity(Intent(requireContext(), MainActivity::class.java))
             requireActivity().finish()
             return
@@ -66,9 +66,8 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
         progressRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.getValue(GameProgress::class.java)?.let { saved ->
-                    // interpret `score` as percent
-                    val percent = saved.score.coerceIn(0,100)
-                    updateBoard(percent)
+                    // percentage already between 0–100
+                    updateBoard(saved.score)
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -104,15 +103,13 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
             }
 
             // clamp & compute percent
-            val saved = entered.coerceIn(0.0, goal.target)
-            val percent = ((saved / goal.target) * 100).toInt().coerceIn(0, 100)
+            val percent = ((entered.coerceIn(0.0, goal.target) / goal.target) * 100)
+                .roundToInt().coerceIn(0, 100)
 
-            // update UI and board cells
             updateBoard(percent)
 
             // 8) Save to Firebase
-            val progress = GameProgress(level = 0, score = percent)
-            progressRef.setValue(progress)
+            progressRef.setValue(GameProgress(level = 0, score = percent))
                 .addOnFailureListener { e ->
                     Toast.makeText(
                         requireContext(),
@@ -133,34 +130,55 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
         }
     }
 
-    // Extracted to avoid duplication
-    private fun updateBoard(percent: Int) {
-        binding.tvProgress.text = getString(R.string.progress_format, percent)
 
-        // locate cells
+    private fun updateBoard(percent: Int) {
+        // 1) Update progress label
+        binding.tvProgress.text =
+            getString(R.string.progress_format, percent)
+
+        // 2) Collect TextViews in ring order
         val board = binding.boardContainer
         val topRow    = board.getChildAt(0) as ViewGroup
         val rightCol  = board.getChildAt(1) as ViewGroup
         val bottomRow = board.getChildAt(2) as ViewGroup
         val leftCol   = board.getChildAt(3) as ViewGroup
 
-        // gather TextView cells in ring order
         val cells = mutableListOf<TextView>().apply {
-            topRow.children.filterIsInstance<TextView>().forEach    { add(it) }
-            rightCol.children.filterIsInstance<TextView>().forEach  { add(it) }
-            bottomRow.children.filterIsInstance<TextView>()
-                .toList().asReversed().forEach { add(it) }
-            leftCol.children.filterIsInstance<TextView>()
-                .toList().asReversed().forEach { add(it) }
+            addAll(topRow.children.filterIsInstance<TextView>())
+            addAll(rightCol.children.filterIsInstance<TextView>())
+            bottomRow.children
+                .filterIsInstance<TextView>()
+                .toList().asReversed()
+                .forEach { add(it) }
+            leftCol.children
+                .filterIsInstance<TextView>()
+                .toList().asReversed()
+                .forEach { add(it) }
         }
 
-        // reset all, then highlight bucket
-        val defaultColor   = ContextCompat.getColor(requireContext(), R.color.boardCellDefault)
-        val highlightColor = ContextCompat.getColor(requireContext(), R.color.boardCellFilled)
-        cells.forEach { it.setBackgroundColor(defaultColor) }
+        // 3) Pick the bucket index (0–10% → index 0, etc.)
+        val idx = (percent / 10).coerceIn(0, cells.lastIndex)
+        val target = cells[idx]
 
-        val bucket = (percent / 10).coerceIn(0, cells.lastIndex)
-        cells.getOrNull(bucket)?.setBackgroundColor(highlightColor)
+        // 4) Prep marker
+        val marker = binding.ivMarker.apply {
+            visibility = View.VISIBLE
+            bringToFront()
+        }
+
+        // 5) Compute its new center inside the board frame
+        val boardPos  = IntArray(2).also { board.getLocationOnScreen(it) }
+        val targetPos = IntArray(2).also { target.getLocationOnScreen(it) }
+        val centerX = targetPos[0] - boardPos[0] + target.width/2f - marker.width/2f
+        val centerY = targetPos[1] - boardPos[1] + target.height/2f - marker.height/2f
+
+        // 6) Bounce it there
+        marker.animate()
+            .translationX(centerX)
+            .translationY(centerY)
+            .setInterpolator(BounceInterpolator())
+            .setDuration(600)
+            .start()
     }
 
     override fun onDestroyView() {

@@ -74,6 +74,7 @@ class IncomeActivity : AppCompatActivity() {
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.item_income_card, parent, false)
                 )
+
             override fun onBindViewHolder(
                 holder: IncomeViewHolder,
                 position: Int,
@@ -109,27 +110,34 @@ class IncomeActivity : AppCompatActivity() {
         // 6. Hamburger menu replaced with popup for navigation
         binding.menuButton.setOnClickListener { anchor ->
             PopupMenu(this, anchor).apply {
-                menuInflater.inflate(R.menu.menu_expense, menu)
+                // inflate your actual menu_income.xml
+                menuInflater.inflate(R.menu.menu_income, menu)
+
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.nav_income -> /* current screen */ true
+                        R.id.nav_expense -> {
+                            // navigate to the Expense screen
+                            startActivity(Intent(this@IncomeActivity, ExpenseActivity::class.java))
+                            true
+                        }
                         R.id.nav_board_game -> {
-                            startActivity(
-                                Intent(this@IncomeActivity, MainActivity::class.java)
-                                    .putExtra("startFragment", "board")
-                            )
+                            // navigate to the Board fragment via MainActivity
+                            val intent = Intent(this@IncomeActivity, MainActivity::class.java)
+                                .putExtra("startFragment", "board")
+                            startActivity(intent)
                             true
                         }
                         R.id.nav_login -> {
-                            startActivity(
-                                Intent(this@IncomeActivity, MainActivity::class.java)
-                                    .putExtra("startFragment", "login")
-                            )
+                            // navigate to the Login fragment via MainActivity
+                            val intent = Intent(this@IncomeActivity, MainActivity::class.java)
+                                .putExtra("startFragment", "login")
+                            startActivity(intent)
                             true
                         }
                         else -> false
                     }
                 }
+
                 show()
             }
         }

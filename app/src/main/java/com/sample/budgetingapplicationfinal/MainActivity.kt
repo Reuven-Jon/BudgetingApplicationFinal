@@ -21,35 +21,47 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Decide what to start
-        when (intent.getStringExtra("startFragment")) {
+        // See if we got a specific screen request from IncomeActivity
+        val startScreen = intent.getStringExtra("startFragment")
+        when (startScreen) {
             "income" -> {
-                // Launch your IncomeActivity directly
-                startActivity(Intent(this, IncomeActivity::class.java))
-                finish()
-                return
+                // You tapped "Income" in the menu, so let's go there
+                val intent = Intent(this, IncomeActivity::class.java)
+                startActivity(intent)
+                finish()  // close this activity so back won't return here
+                return     // no more setup needed
             }
             "board" -> {
+                // You chose "Board Game", so load that fragment
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, BoardFragment())
                     .commit()
             }
-            "login", null -> {
+            "login" -> {
+                // Back to login if that's what you asked for
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, LoginFragment())
+                    .commit()
+            }
+            else -> {
+                // No flag or unknown value: default to login screen
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, LoginFragment())
                     .commit()
             }
         }
 
-        // Request Android 13+ notification permission once
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestPermissions(
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                REQUEST_POST_NOTIFICATIONS
-            )
+        // On Android 13+ we need to ask for notification permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                // Friendly prompt asking the user to allow notifications
+                requestPermissions(
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    REQUEST_POST_NOTIFICATIONS
+                )
+            }
         }
     }
 
@@ -59,10 +71,12 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_POST_NOTIFICATIONS &&
-            grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED
-        ) {
-            Log.d("MainActivity", "POST_NOTIFICATIONS permission granted")
+        if (requestCode == REQUEST_POST_NOTIFICATIONS) {
+            if (grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) {
+                Log.d("MainActivity", "Notifications allowed by user 👍")
+            } else {
+                Log.d("MainActivity", "Notifications permission denied 👎")
+            }
         }
     }
 }
