@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/nav_expense"
+        android:icon="@drawable/swap_arrow"
+        android:title="Expense" />
+
+    <item
         android:id="@+id/nav_income"
         android:icon="@drawable/swap_arrow"
         android:title="Income" />
@@ -19,6 +24,5 @@
     <item
         android:id="@+id/nav_pie_chart"
         android:icon="@drawable/stats"
-    android:title="Pie Chart" />
-
+        android:title="Pie Chart" />
 </menu>

@@ -35,7 +35,8 @@
         <!-- Other screens -->
         <activity android:name=".IncomeActivity" />
         <activity android:name=".ExpenseActivity" />
-        <activity android:name=".BoardFragment" />"
+        <activity android:name=".PieChartActivity" />
+
     </application>
 
 </manifest>

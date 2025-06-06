@@ -44,7 +44,12 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
 
         // 1) Get the BudgetGoal from args
         @Suppress("DEPRECATION")
-        goal = arguments?.getParcelable(ARG_GOAL) ?: return
+        goal = arguments?.getParcelable(ARG_GOAL) ?: BudgetGoal(
+            name = "Temporary Goal",
+            target = 200_000.0,
+            periodMonths = 12,
+            incomePerMonth = 15_000.0
+        )
 
         // 2) Init FirebaseAuth & guard
         auth = Firebase.auth

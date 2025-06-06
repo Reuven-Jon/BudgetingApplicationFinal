@@ -120,6 +120,12 @@ class IncomeActivity : AppCompatActivity() {
                             startActivity(Intent(this@IncomeActivity, ExpenseActivity::class.java))
                             true
                         }
+                        R.id.nav_pie_chart -> {
+                            // Launch the PieChartActivity when user clicks “View Pie Chart”
+                            startActivity(Intent(this@IncomeActivity, PieChartActivity::class.java))
+                            true
+                        }
+
                         R.id.nav_board_game -> {
                             // navigate to the Board fragment via MainActivity
                             val intent = Intent(this@IncomeActivity, MainActivity::class.java)

@@ -3,13 +3,10 @@ package com.sample.budgetingapplicationfinal
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.sample.budgetingapplicationfinal.databinding.FragmentGoalInputBinding
 
-
-/**
- * Lets users enter what they're saving for, the total cost, period,
- * and then computes the monthly amount needed (used as incomePerMonth).
- */
 class GoalInputFragment : Fragment(R.layout.fragment_goal_input) {
     private var binding: FragmentGoalInputBinding? = null
 
@@ -20,18 +17,25 @@ class GoalInputFragment : Fragment(R.layout.fragment_goal_input) {
     }
 
     private fun submitGoal() {
+        // 1) Read user input
         val name   = binding?.etGoalName?.text.toString().ifBlank { return }
         val cost   = binding?.etGoalCost?.text.toString().toDoubleOrNull() ?: return
         val period = binding?.etPeriodMonths?.text.toString().toIntOrNull()  ?: return
 
-        // compute how much to set aside each month to hit the goal in 'period' months
+        // 2) Save the BudgetGoal under /users/{uid}/budgetGoal
+        val uid = Firebase.auth.currentUser!!.uid
         val incomePerMonth = cost / period
+        val userGoal = BudgetGoal(
+            name = name,
+            target = cost,
+            periodMonths = period,
+            incomePerMonth = incomePerMonth
+        )
+        FirebaseDatabaseManager.saveBudgetGoal(uid, userGoal)
 
-        // now call the 4-arg constructor: (name, totalCost, period, incomePerMonth)
-        val goal = BudgetGoal(name, cost, period, incomePerMonth)
-
+        // 3) Navigate to BoardFragment directly (it will load the goal from Firebase)
         parentFragmentManager.beginTransaction()
-            .replace(R.id.container, BoardFragment.newInstance(goal))
+            .replace(R.id.container, BoardFragment())
             .addToBackStack(null)
             .commit()
     }
@@ -41,4 +45,3 @@ class GoalInputFragment : Fragment(R.layout.fragment_goal_input) {
         binding = null
     }
 }
-

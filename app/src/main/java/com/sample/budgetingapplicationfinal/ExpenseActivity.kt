@@ -54,6 +54,12 @@ class ExpenseActivity : AppCompatActivity() {
                             startActivity(Intent(this@ExpenseActivity, IncomeActivity::class.java))
                             true
                         }
+                        R.id.nav_pie_chart -> {
+                            // Launch the PieChartActivity when user clicks “View Pie Chart”
+                            startActivity(Intent(this@ExpenseActivity, PieChartActivity::class.java))
+                            true
+                        }
+
                         R.id.nav_board_game -> {
                             startActivity(Intent(this@ExpenseActivity, MainActivity::class.java)
                                 .putExtra("startFragment", "board"))

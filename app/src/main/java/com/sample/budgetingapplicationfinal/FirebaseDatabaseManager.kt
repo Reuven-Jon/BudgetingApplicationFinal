@@ -11,7 +11,6 @@ data class ExpenseEntry(
     var date: String = LocalDate.now().toString()
 )
 
-// no change to Income or UserProfile
 data class UserProfile(
     var uid: String = "",
     var email: String = "",
@@ -52,6 +51,21 @@ object FirebaseDatabaseManager {
             .setValue(expense)
     }
 
+    /** Save or update BudgetGoal under /users/{uid}/budgetGoal */
+    fun saveBudgetGoal(uid: String, goal: BudgetGoal) {
+        rootRef.child("users")
+            .child(uid)
+            .child("budgetGoal")
+            .setValue(goal)
+    }
+
+    /** Retrieve BudgetGoal reference */
+    fun getBudgetGoalRef(uid: String): DatabaseReference =
+        rootRef.child("users")
+            .child(uid)
+            .child("budgetGoal")
+
+    /** Save or update GameProgress under /users/{uid}/gameProgress */
     fun saveGameProgress(uid: String, progress: GameProgress) {
         rootRef.child("users")
             .child(uid)
