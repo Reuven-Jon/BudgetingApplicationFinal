@@ -15,7 +15,7 @@
         android:hint="@string/hint_email"
         app:boxStrokeColor="@color/buttonColor"
         app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_info"
+        app:endIconDrawable="@drawable/info"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -39,7 +39,7 @@
         app:boxStrokeColor="@color/buttonColor"
         app:passwordToggleEnabled="true"
         app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_info"
+        app:endIconDrawable="@drawable/info"
         app:endIconTint="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/tilUsername"
         app:layout_constraintStart_toStartOf="parent"
