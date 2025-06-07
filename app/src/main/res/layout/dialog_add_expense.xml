@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,6 +14,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Category -->
         <EditText
             android:id="@+id/expenseCategoryInput"
             android:layout_width="match_parent"
@@ -21,6 +23,7 @@
             android:inputType="text"
             android:padding="16dp"/>
 
+        <!-- Amount -->
         <EditText
             android:id="@+id/expenseAmountInput"
             android:layout_width="match_parent"
@@ -30,6 +33,24 @@
             android:padding="16dp"
             android:layout_marginTop="8dp"/>
 
+        <!-- Period (month) -->
+        <Spinner
+            android:id="@+id/spinnerPeriod"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Source/Description -->
+        <EditText
+            android:id="@+id/expenseSourceInput"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:hint="Source"
+            android:inputType="text"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Submit -->
         <Button
             android:id="@+id/submitExpenseButton"
             android:layout_width="match_parent"

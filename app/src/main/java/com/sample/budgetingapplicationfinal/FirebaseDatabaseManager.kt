@@ -43,7 +43,7 @@ object FirebaseDatabaseManager {
             .setValue(income)
     }
 
-    fun saveExpense(uid: String, expense: ExpenseEntry) {
+    fun saveExpense(uid: String, expense: Expense) {
         rootRef.child("users")
             .child(uid)
             .child("expenses")

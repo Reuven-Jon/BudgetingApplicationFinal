@@ -31,6 +31,23 @@
             android:layout_height="wrap_content"
             android:text="2025-05-22"/>
 
+        <!-- period -->
+        <TextView
+            android:id="@+id/expensePeriod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Period"
+            android:layout_marginTop="4dp"/>
+
+        <!-- source -->
+        <TextView
+            android:id="@+id/expenseSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Source"
+            android:layout_marginTop="4dp"/>
+
+
         <ImageButton
             android:id="@+id/expenseInfoButton"
             android:layout_width="wrap_content"

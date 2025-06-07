@@ -17,8 +17,8 @@
         android:title="Logout" />
 
     <item
-        android:id="@+id/nav_pie_chart"
+        android:id="@+id/nav_bar_chart"
         android:icon="@drawable/stats"
-    android:title="Pie Chart" />
+    android:title="Bar Chart" />
 
 </menu>
