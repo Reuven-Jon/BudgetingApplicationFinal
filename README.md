@@ -80,6 +80,7 @@ Follow these simple steps to download the code from GitHub and run it in Android
    Open your terminal (or Git Bash) and run:  
    ```bash
 (https://github.com/Reuven-Jon/BudgetingApplicationFinal.git)
+
 2. Open in Android Studio
 
   Launch Android Studio.
