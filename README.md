@@ -1,5 +1,7 @@
 # 💰 Spend Cents – Gamify Your Finances
 
+**YT VIDEO LINK** - https://youtu.be/g9DdFgYuIwA?si=KWaVwtr0aaKbXzfT
+
 **Spend Cents** is an Android finance tracking application that makes managing money fun and interactive. Built in Android Studio and integrated with Firebase, 
 this app allows users to record income and expenses, visualize their financial trends, and track their savings progress using a board game–themed interface. 
 It’s designed to motivate users through gamified financial tracking while providing essential budgeting tools.
@@ -132,5 +134,4 @@ users
     │       ├── category: "Food"
     │       ├── date: Timestamp
     │       └── imageUrl: "https://firebase..." 
-
 
