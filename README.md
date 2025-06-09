@@ -89,4 +89,48 @@ users
     │       ├── amount: 250
     │       ├── category: "Food"
     │       ├── date: Timestamp
-    │       └── imageUrl: "https://firebase..."
+    │       └── imageUrl: "https://firebase..." 
+
+## 🚀 Getting Started
+
+Follow these simple steps to download the code from GitHub and run it in Android Studio:
+
+1. **Clone the repository**  
+   Open your terminal (or Git Bash) and run:  
+   ```bash
+   git clone https://github.com/<your-username>/Spend-Cents.git
+2. Open in Android Studio
+
+  Launch Android Studio.
+
+3. Select File → Open (or Open an existing project).
+
+4. Navigate to the Spend-Cents folder you just cloned and click OK.
+
+5. Let Gradle sync
+   Android Studio will automatically download all dependencies.
+   If you see a prompt to “Update Gradle” or “Accept Licenses,” click OK or Accept.
+
+6. Configure Firebase
+
+7. Download your google-services.json from the Firebase console.
+
+8. Place it in your project at:
+
+css
+Copy
+Edit
+app/src/main/
+Run the app
+
+9. Connect an Android device via USB (with USB debugging enabled) or start an Android emulator.
+
+10. Click the green Run ▶️ button in the toolbar.
+
+11. Choose your target device and press OK. (Preferably Medium Phone API 36 or 35)
+
+12. You should now see Spend Cents launch on your device/emulator. 🎉
+
+Copy
+Edit
+
