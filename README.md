@@ -71,26 +71,7 @@ Users can view graphical insights into their financial habits:
 - **Firebase Authentication**: Each user logs in securely using email/password.
 - **Firebase Firestore**: Stores all income, expenses, goals, and user progress.
 - **Firebase Storage**: Handles uploaded images for expenses (e.g. receipts).
-
-### 🔧 Firestore Data Structure (Simplified)
-
-```plaintext
-users
-└── UID
-    ├── minGoal: 1000
-    ├── maxGoal: 2000
-    ├── income (subcollection)
-    │   └── incomeID
-    │       ├── amount: 1500
-    │       ├── date: Timestamp
-    │       └── description: "Salary"
-    ├── expenses (subcollection)
-    │   └── expenseID
-    │       ├── amount: 250
-    │       ├── category: "Food"
-    │       ├── date: Timestamp
-    │       └── imageUrl: "https://firebase..." 
-
+  
 ## 🚀 Getting Started
 
 Follow these simple steps to download the code from GitHub and run it in Android Studio:
@@ -131,6 +112,25 @@ Run the app
 
 12. You should now see Spend Cents launch on your device/emulator. 🎉
 
-Copy
-Edit
+
+### 🔧 Firestore Data Structure (Simplified)
+
+```plaintext
+users
+└── UID
+    ├── minGoal: 1000
+    ├── maxGoal: 2000
+    ├── income (subcollection)
+    │   └── incomeID
+    │       ├── amount: 1500
+    │       ├── date: Timestamp
+    │       └── description: "Salary"
+    ├── expenses (subcollection)
+    │   └── expenseID
+    │       ├── amount: 250
+    │       ├── category: "Food"
+    │       ├── date: Timestamp
+    │       └── imageUrl: "https://firebase..." 
+
+
 
