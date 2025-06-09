@@ -79,7 +79,7 @@ Follow these simple steps to download the code from GitHub and run it in Android
 1. **Clone the repository**  
    Open your terminal (or Git Bash) and run:  
    ```bash
-   git clone https://github.com/<your-username>/Spend-Cents.git
+(https://github.com/Reuven-Jon/BudgetingApplicationFinal.git)
 2. Open in Android Studio
 
   Launch Android Studio.
