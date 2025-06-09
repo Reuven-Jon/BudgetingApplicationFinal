@@ -49,7 +49,20 @@
             android:inputType="text"
             android:padding="16dp"
             android:layout_marginTop="8dp"/>
+        <Button
+            android:id="@+id/capturePhotoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Capture Photo" />
 
+        <ImageView
+            android:id="@+id/capturedImagePreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
         <!-- Submit -->
         <Button
             android:id="@+id/submitExpenseButton"

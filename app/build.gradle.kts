@@ -62,7 +62,9 @@ dependencies {
 
     // FirebaseUI for Realtime DB + RecyclerView
     implementation("com.firebaseui:firebase-ui-database:9.0.0")
-
+    implementation ("com.google.firebase:firebase-storage-ktx:20.2.0")// or latest
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
     // AndroidX & UI
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")

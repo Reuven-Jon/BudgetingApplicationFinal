@@ -9,7 +9,7 @@
     <string name="button_register_new_user">Register New User</string>
 
     <string name="go_back_to_login">Go back to login</string>
-
+    <string name="expense_photo">Expense photo</string>
     <string name="select_period">Select period</string>
     <string name="info">Details</string>
 
