@@ -184,6 +184,8 @@ class BoardFragment : Fragment(R.layout.fragment_board) {
             .setInterpolator(BounceInterpolator())
             .setDuration(600)
             .start()
+
+
     }
 
     override fun onDestroyView() {

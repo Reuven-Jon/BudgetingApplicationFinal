@@ -146,7 +146,6 @@
 
     </FrameLayout>
 
-
     <!-- 3) Manual progress entry + button -->
     <LinearLayout
         android:id="@+id/manualEntryContainer"
@@ -173,7 +172,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/button_update_progress" />
+            android:text="@string/button_update_progress"
+            app:backgroundTint="#00A0A9"/>
     </LinearLayout>
 
     <!-- 4) Navigation buttons -->
@@ -206,6 +206,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/button_go_to_expense" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

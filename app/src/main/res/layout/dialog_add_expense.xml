@@ -53,7 +53,8 @@
             android:id="@+id/capturePhotoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Capture Photo" />
+            android:text="Capture Photo"
+            app:backgroundTint="#00A0A9"   />
 
         <ImageView
             android:id="@+id/capturedImagePreview"
@@ -69,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:text="Add Expense"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            app:backgroundTint="#00A0A9"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_email"
         app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_info"
+        app:endIconDrawable="@drawable/info"
         app:endIconTint="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
         android:hint="@string/hint_password"
         app:passwordToggleEnabled="true"
         app:endIconMode="custom"
-        app:endIconDrawable="@drawable/ic_info"
+        app:endIconDrawable="@drawable/info"
         app:endIconTint="@android:color/black"
         app:layout_constraintTop_toBottomOf="@id/tilRegEmail"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,8 @@
         android:text="@string/button_submit_registration"
         app:layout_constraintTop_toBottomOf="@id/tilRegPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:backgroundTint="#00A0A9"/>
 
     <TextView
         android:id="@+id/tvBackToLogin"

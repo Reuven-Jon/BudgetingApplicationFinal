@@ -52,9 +52,6 @@ dependencies {
     // Use the Firebase BoM to keep versions consistent
     implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
 
-
-
-
     // Firebase modules
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-database-ktx")

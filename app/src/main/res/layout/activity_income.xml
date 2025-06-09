@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/desc_add_income"
         android:src="@drawable/add"
-        app:backgroundTint="@color/buttonColor"
+        app:backgroundTint="#00A0A9"
         app:tint="@color/buttonTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/menuButton" />
@@ -55,7 +55,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        app:cardBackgroundColor="@color/buttonColor"
+        app:cardBackgroundColor="#00A0A9"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_total_income"
-                android:textColor="@color/buttonTextColor" />
+                app:cardBackgroundColor="#00A0A9" />
 
             <TextView
                 android:id="@+id/totalIncomeAmount"

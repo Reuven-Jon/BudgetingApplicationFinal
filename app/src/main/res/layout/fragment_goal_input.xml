@@ -53,8 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/buttonColor"
-        android:textColor="@color/buttonTextColor"
+        android:backgroundTint="#00A0A9"
         android:text="@string/button_start_tracking"/>
 </LinearLayout>
 
